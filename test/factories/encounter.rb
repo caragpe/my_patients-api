@@ -5,6 +5,5 @@ FactoryBot.define do
     room { Faker::Number.number(2) }
     bed { Faker::Number.digit }
     admitted_at { Faker::Time.backward(1, :morning)}
-    association :patient, factory: :patient
   end
 end
