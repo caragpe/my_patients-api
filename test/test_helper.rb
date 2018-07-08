@@ -13,7 +13,7 @@ require 'webmock/minitest'
 class ActiveSupport::TestCase
   include ActiveJob::TestHelper
   include FactoryBot::Syntax::Methods
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
+  # Setup fixtures in test/fixtures/*.yml for all tests (alphabetical order)
   fixtures :all
 
   # Add more helper methods to be used by all tests here...

@@ -3,6 +3,7 @@
 require 'test_helper'
 
 class PatientRepositoryTest < ActiveSupport::TestCase
+  NUMBER_OF_TEST_PATIENTS = 2
   ENCOUNTERS_PER_PATIENT = 3
 
   def setup
@@ -10,13 +11,13 @@ class PatientRepositoryTest < ActiveSupport::TestCase
     @patient_with_encounters = create(:patient_with_encounters, encounters_count: ENCOUNTERS_PER_PATIENT)
   end
 
-  # test 'Initial test' do
-  #   puts @patient.inspect
-  #   puts @patient_with_encounters.inspect
-  #   @patient_with_encounters.encounters.each do |encounter|
-  #     puts encounter.inspect
-  #   end
-  # end
+  test '#find_all returns the correct amount of patients' do
+    patients = PatientRepository.find_all
+
+    assert_includes patients, @patient
+    assert_includes patients, @patient_with_encounters
+    assert_equal NUMBER_OF_TEST_PATIENTS, patients.count
+  end
 
   test '#find_by_id successfully finds patient if they exist' do
     patient = PatientRepository.find_by_id(@patient.id)
@@ -67,15 +68,33 @@ class PatientRepositoryTest < ActiveSupport::TestCase
 
   test '#find_by_first_name successfully finds patient if they exist' do
     patient_first_name = @patient.first_name
-
     found_patient = PatientRepository.find_by_first_name(patient_first_name)
 
     assert found_patient
     assert_equal @patient, found_patient
   end
 
-  test '#destroy removes patient and all encounters if successful' do
+  test '#find_by_first_name returns nil if patient does not exist' do
+    patient = PatientRepository.find_by_first_name('FAKE_FIRST_NAME')
 
+    assert_nil patient
+  end
+
+  test '#find_by_last_name successfully finds patient if they exist' do
+    patient_last_name = @patient.last_name
+    found_patient = PatientRepository.find_by_last_name(patient_last_name)
+
+    assert found_patient
+    assert_equal @patient, found_patient
+  end
+
+  test '#find_by_last_name returns nil if patient does not exist' do
+    patient = PatientRepository.find_by_last_name('FAKE_LAST_NAME')
+
+    assert_nil patient
+  end
+
+  test '#destroy removes patient and all encounters if successful' do
     encounters_count = @patient_with_encounters.encounters.length
 
     assert_equal ENCOUNTERS_PER_PATIENT, encounters_count
@@ -99,40 +118,37 @@ class PatientRepositoryTest < ActiveSupport::TestCase
     patient = PatientRepository.create(patient_params)
 
     refute patient.valid?
-    assert patient.errors[:mrn]
+    refute_empty patient.errors.messages[:mrn]
   end
-  #
-  # test '#update with valid params' do
-  #   new_name = 'New Name'
-  #   refute_equal @user.first_name, new_name
-  #
-  #   role = create(:role, site: @site, name: Role::ADMIN_ROLE_NAME)
-  #   user_params = { first_name: new_name, role_ids: [role.id] }
-  #
-  #   PatientRepository.update(@user, user_params)
-  #
-  #   assert @user.valid?
-  #   assert_equal new_name, @user.reload.first_name
-  #   assert_includes @user.reload.role_ids, role.id
-  # end
-  #
-  # test '#update with invalid params' do
-  #   new_name = ''
-  #   user_params = { first_name: new_name }
-  #
-  #   user = PatientRepository.update(@user, user_params)
-  #
-  #   refute user.valid?
-  #   refute_equal new_name, user.reload.first_name
-  # end
-  #
-  # test '#update user with already assigned role' do
-  #   role = create(:role)
-  #   @user.roles << role
-  #
-  #   assert_raises ActiveRecord::RecordInvalid do
-  #     @user.roles << role
-  #   end
-  # end
 
+  test '#update patient with valid params is successful' do
+    new_name = 'New name'
+    refute_equal @patient.first_name, new_name
+
+    patient_params = { first_name: new_name }
+    PatientRepository.update(@patient, patient_params)
+
+    assert @patient.valid?
+    assert_equal new_name, @patient.reload.first_name
+  end
+
+  test '#update patient with invalid first name fails' do
+    new_first_name = ''
+
+    patient_params = { first_name: new_first_name }
+    PatientRepository.update(@patient, patient_params)
+
+    refute @patient.valid?
+    assert_equal 1, @patient.errors.count
+  end
+
+  test '#update patient with invalid last name fails' do
+    new_last_name = ''
+
+    patient_params = { last_name: new_last_name }
+    PatientRepository.update(@patient, patient_params)
+
+    refute @patient.valid?
+    assert_equal 1, @patient.errors.count
+  end
 end
