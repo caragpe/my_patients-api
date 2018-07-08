@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class BaseRepository
-  KLASS_ERROR_MESSAGE = 'Raised from BaseRepository. Should be overridden.'
-  
+  KLASS_ERROR_MESSAGE = 'Raised from BaseRepository. Should be overridden.'.freeze
+
   class << self
     def find_all
       klass.all

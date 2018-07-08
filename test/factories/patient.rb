@@ -5,6 +5,15 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     weight 80
     height 182
-    mrn { Faker::Code.imei }
+    mrn { Faker::Number.hexadecimal(6) }
+    factory :patient_with_encounters do
+      transient do
+        encounters_count 2
+      end
+
+      after(:create) do |patient, evaluator|
+        create_list(:encounter, evaluator.encounters_count, patient: patient)
+      end
+    end
   end
 end
