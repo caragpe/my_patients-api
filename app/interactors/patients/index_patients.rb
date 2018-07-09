@@ -3,8 +3,12 @@
 class Patients::IndexPatients < BaseInteractor
 
   def call
-    context.patients = PatientRepository.find_all
-    context.length = context.patients.length
+    if patients = PatientRepository.find_all
+      context.patients = patients
+      context.length = context.patients.length
+    else
+      context.fail!(message: "No patients available")
+    end
   end
 
 end
