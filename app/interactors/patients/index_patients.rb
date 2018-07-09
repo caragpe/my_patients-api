@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Patients::IndexPatients < BaseInteractor
+  include Interactor
 
   def call
     if patients = PatientRepository.find_all
