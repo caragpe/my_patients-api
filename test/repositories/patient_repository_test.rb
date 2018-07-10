@@ -11,6 +11,14 @@ class PatientRepositoryTest < ActiveSupport::TestCase
     @patient_with_encounters = create(:patient_with_encounters, encounters_count: ENCOUNTERS_PER_PATIENT)
   end
 
+  test '#all_patients returns the correct amount of patients' do
+    patients = PatientRepository.all_patients
+
+    assert_includes patients, @patient
+    assert_includes patients, @patient_with_encounters
+    assert_equal NUMBER_OF_TEST_PATIENTS, patients.count
+  end
+
   test '#find_all returns the correct amount of patients' do
     patients = PatientRepository.find_all
 
