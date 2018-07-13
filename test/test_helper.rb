@@ -7,6 +7,7 @@ end
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'mocha/minitest'
+require 'minitest/mock'
 # require 'support/factory_bot'
 require 'webmock/minitest'
 
@@ -18,6 +19,6 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   def parsed_response
-    parsed_data = JSON.parse(response.body)
+    JSON.parse(response.body)
   end
 end
