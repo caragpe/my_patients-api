@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-equire 'test_helper'
+require 'test_helper'
 
 class Patients::IndexPatientsTest < ActionController::TestCase
   test '#call returns list of patients' do
