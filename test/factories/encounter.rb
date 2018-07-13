@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :encounter do
     visit_number { Faker::Number.number(8) }

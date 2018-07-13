@@ -1,7 +1,8 @@
-class PatientsController < ApplicationController
+# frozen_string_literal: true
 
+class PatientsController < ApplicationController
   def index
-    result = ::Patients::IndexPatients.call()
+    result = ::Patients::IndexPatients.call
     length = result.length
     patients = result.patients
 

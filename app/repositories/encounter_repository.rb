@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class EncounterRepository < BaseRepository
-
   class << self
     def find_by_visit_number(visit_number)
       klass.where('lower(visit_number) = ?', visit_number.downcase).first

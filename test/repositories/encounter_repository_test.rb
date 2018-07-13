@@ -4,7 +4,7 @@ require 'test_helper'
 
 class EncounterRepositoryTest < ActiveSupport::TestCase
   ENCOUNTERS_PER_PATIENT = 3
-  LOCATION = 'ELC'
+  LOCATION = 'ELC'.freeze
 
   def setup
     @patient_with_encounters = create(:patient_with_encounters, encounters_count: ENCOUNTERS_PER_PATIENT)
@@ -18,7 +18,7 @@ class EncounterRepositoryTest < ActiveSupport::TestCase
   end
 
   test '#find_by_id returns successfully finds encounter if they exist' do
-    encounter =  EncounterRepository.find_by_id(@encounters.first.id)
+    encounter = EncounterRepository.find_by_id(@encounters.first.id)
 
     assert encounter
     assert_equal encounter, @encounters.first
@@ -31,7 +31,7 @@ class EncounterRepositoryTest < ActiveSupport::TestCase
   end
 
   test '#find_by_id! successfully finds encounter if they exist' do
-    encounter =  EncounterRepository.find_by_id!(@encounters.first.id)
+    encounter = EncounterRepository.find_by_id!(@encounters.first.id)
 
     assert encounter
     assert_equal encounter, @encounters.first
