@@ -1,31 +1,22 @@
 require 'test_helper'
 
 class Patients::IndexPatientsTest < ActionController::TestCase
-  def setup
-    patient_count = 2
-    @patients_collection = create_list(:patient, patient_count)
+  test '#call returns list of patients' do
+    patients_collection = mock
+    patients_collection.expects(:length)
+    PatientRepository.expects(:find_all).returns(patients_collection)
+
+    result = Patients::IndexPatients.call()
+
+    assert result.success?
+    assert_equal patients_collection, result.patients
   end
 
-  # test '#call returns list of patients' do
-  #   patients = mock
-  #   PatientRepository.expects(:find_all).returns(patients)
-  #   # patients_collection.expects(:length).returns(patient_count)
-  #
-  #   result = Patients::IndexPatients.call()
-  #
-  #   assert result.success?
-  #   # binding.pry
-  #   assert_equal patients, result.patients
-  # end
-  test '#call returns list of patients' do
-    mock = MiniTest::Mock.new
-    def mock.find_all; @patients_collection; end
+  test '#call returns context.fail! is no patients are available' do
+    PatientRepository.expects(:find_all).returns(nil)
 
-    PatientRepository.stub :new, mock do
-      result = Patients::IndexPatients.call()
-
-      assert result.success?
-      assert_equal @patients_collection, result.patients
-    end
+    result = Patients::IndexPatients.call()
+ 
+    assert !result.success?
   end
 end

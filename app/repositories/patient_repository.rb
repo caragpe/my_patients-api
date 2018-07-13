@@ -3,10 +3,6 @@
 class PatientRepository < BaseRepository
 
   class << self
-    def all_patients
-      klass.all
-    end
-
     def find_by_mrn(mrn)
       klass.where('lower(mrn) = ?', mrn.downcase).first
     end

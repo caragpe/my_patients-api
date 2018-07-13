@@ -8,7 +8,7 @@ class PatientsControllerTest < ActionController::TestCase
     @patient_john = create(:patient_with_encounters, first_name: 'John')
   end
 
-  test '#index retrieves all patients' do
+  test '#index retrieves successfully all patients' do
     patient_count = 5
     patients = build_stubbed_list(:patient, patient_count)
 
@@ -22,5 +22,8 @@ class PatientsControllerTest < ActionController::TestCase
 
     assert_response :ok
     assert_equal patient_count, parsed_response['length']
+  end
+
+  test '#index returns no patients' do
   end
 end

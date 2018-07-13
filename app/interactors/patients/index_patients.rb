@@ -4,7 +4,7 @@ class Patients::IndexPatients < BaseInteractor
   include Interactor
 
   def call
-    if patients = PatientRepository.all_patients
+    if patients = PatientRepository.find_all
       context.patients = patients
       context.length = patients.length
     else
