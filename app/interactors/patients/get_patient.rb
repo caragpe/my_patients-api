@@ -13,7 +13,7 @@ class Patients::GetPatient < BaseInteractor
     if patient = PatientRepository.find_by_mrn(context.patient_mrn)
       context.patient = patient
     else
-      context.fail!(message: "There is no patient with MRN #{mrn}")
+      context.fail!(message: "There is no patient with MRN #{patient_mrn}")
     end
   end
 end
