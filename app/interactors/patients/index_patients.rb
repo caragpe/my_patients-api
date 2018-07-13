@@ -8,8 +8,7 @@ class Patients::IndexPatients < BaseInteractor
       context.patients = patients
       context.length = patients.length
     else
-      context.fail!(message: "No patients available")
+      context.fail!(message: 'No patients available')
     end
   end
-
 end

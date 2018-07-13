@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PatientRepository < BaseRepository
-
   class << self
     def find_by_mrn(mrn)
       klass.where('lower(mrn) = ?', mrn.downcase).first
