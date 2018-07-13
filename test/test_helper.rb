@@ -19,6 +19,6 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   def parsed_response
-    parsed_data = JSON.parse(response.body)
+    JSON.parse(response.body)
   end
 end

@@ -13,10 +13,10 @@ class PatientsControllerTest < ActionController::TestCase
     patients = build_stubbed_list(:patient, patient_count)
 
     interactor_result = mock
-
-    Patients::IndexPatients.expects(:call).returns(interactor_result)
     interactor_result.expects(:patients).returns(patients)
     interactor_result.expects(:length).returns(patient_count)
+
+    Patients::IndexPatients.expects(:call).returns(interactor_result)
 
     get :index
 
@@ -24,6 +24,16 @@ class PatientsControllerTest < ActionController::TestCase
     assert_equal patient_count, parsed_response['length']
   end
 
-  test '#index returns no patients' do
+  test '#index returns empty patient collection if there are no patients' do
+    no_patients_returned = mock
+    no_patients_returned.expects(:length).returns(0)
+    no_patients_returned.expects(:patients).returns([])
+
+    Patients::IndexPatients.expects(:call).returns(no_patients_returned)
+
+    get :index
+
+    assert_response :ok
+    assert_equal 0, parsed_response['length']
   end
 end
