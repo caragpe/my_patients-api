@@ -41,9 +41,10 @@ class PatientsControllerTest < ActionController::TestCase
   test '#show returns patient' do
     patient = create(:patient)
 
-    interactor_result = mock
-    interactor_result.expects(:success?).returns(true)
-    interactor_result.expects(:patient).returns(patient)
+    #to review 
+    #interactor_result = mock
+    #interactor_result.expects(:success?).returns(true)
+    #interactor_result.expects(:patient).returns(patient)
 
     Patients::GetPatient.expects(:call).returns(interactor_result)
 
