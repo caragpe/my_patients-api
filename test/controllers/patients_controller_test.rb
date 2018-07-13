@@ -37,4 +37,19 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :ok
     assert_equal 0, parsed_response['length']
   end
+
+  test '#show returns patient' do
+    patient = create(:patient)
+
+    interactor_result = mock
+    interactor_result.expects(:success?).returns(true)
+    interactor_result.expects(:patient).returns(patient)
+
+    Patients::GetPatient.expects(:call).returns(interactor_result)
+
+    get :show, params: { id: patient.id }
+
+    assert_response :ok
+    assert_equal patient, parsed_response['body']
+  end
 end
