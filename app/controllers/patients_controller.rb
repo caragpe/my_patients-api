@@ -10,11 +10,11 @@ class PatientsController < ApplicationController
   end
 
   def show
-    result = ::Patients::GetPatient.call(patient_mrn: params[:patient_mrn])
+    result = ::Patients::GetPatient.call(id: params[:id])
     if result.success?
-      render json: { patient: "Success!"}, status: :ok
+      render json: { patient: result }, status: :ok
     else
-      render json: { patient: "No success :()"}, status: :errorrai
+      render json: { patient: nil }, status: :error
     end
   end
 end
