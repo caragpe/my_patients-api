@@ -43,10 +43,11 @@ class PatientsControllerTest < ActionController::TestCase
 
     interactor_result = mock
     interactor_result.expects(:success?).returns(true)
+    # interactor_result.expects(:length).returns(1)
     interactor_result.expects(:patient).returns(patient)
 
     Patients::GetPatient.expects(:call).returns(interactor_result)
-
+binding.pry
     get :show, params: { id: patient.id }
 
     assert_response :ok
