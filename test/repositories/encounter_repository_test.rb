@@ -17,7 +17,7 @@ class EncounterRepositoryTest < ActiveSupport::TestCase
     assert_equal ENCOUNTERS_PER_PATIENT, encounters.count
   end
 
-  test '#find_by_id returns successfully finds encounter if they exist' do
+  test '#find_by_id successfully finds encounter if they exist' do
     encounter = EncounterRepository.find_by_id(@encounters.first.id)
 
     assert encounter
