@@ -8,4 +8,13 @@ class PatientsController < ApplicationController
 
     render json: { patients: patients, length: length }, status: :ok
   end
+
+  def show
+    result = ::Patients::GetPatient.call(id: params[:id])
+    if result.success?
+      render json: { patient: result.patient }, status: :ok
+    else
+      render json: { patient: nil }, status: :error
+    end
+  end
 end
