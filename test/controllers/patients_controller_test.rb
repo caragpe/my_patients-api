@@ -55,4 +55,19 @@ class PatientsControllerTest < ActionController::TestCase
     assert_equal patient.created_at.strftime("%Y-%m-%dT%H:%M:%S"), parsed_response['patient']['created_at'][0..TIME_UP_TO_SECONDS]
     assert_equal patient.updated_at.strftime("%Y-%m-%dT%H:%M:%S"), parsed_response['patient']['updated_at'][0..TIME_UP_TO_SECONDS]
   end
+
+  test '#show returns error if patient does not exist' do
+    patient = create(:patient)
+
+    interactor_result = mock
+    interactor_result.expects(:success?).returns(false)
+    interactor_result.expects(:patient).returns(nil)
+
+    Patients::GetPatient.expects(:call).returns(interactor_result)
+
+    get :show, params: { id: 1000 }
+
+    assert_response :error
+    binding.pry
+  end
 end
