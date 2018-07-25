@@ -68,4 +68,22 @@ class PatientsControllerTest < ActionController::TestCase
     assert_response :error
     refute parsed_response['patient']
   end
+
+  test "#new creates a new patient" do
+    patient_params = {
+      first_name: 'first_name',
+      last_name: 'last_name',
+      mrn: '111111A'
+    }
+
+    interactor_result = mock
+    interactor_result.expects(:success?).returns(true)
+
+    Patients::AddPatient.excpects(:call).returns(interactor_result)
+
+    get :post, params: patient_params
+
+    assert_response :ok
+
+  end
 end
