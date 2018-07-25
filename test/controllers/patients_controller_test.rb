@@ -79,7 +79,7 @@ class PatientsControllerTest < ActionController::TestCase
     interactor_result = mock
     interactor_result.expects(:success?).returns(true)
 
-    Patients::AddPatient.excpects(:call).returns(interactor_result)
+    Patients::AddPatient.expects(:call).returns(interactor_result)
 
     get :post, params: patient_params
 
